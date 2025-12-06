@@ -1,17 +1,19 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude
-SRC = $(wildcard src/*.cpp)
-OBJ = $(SRC:src/%.cpp=build/%.o)
-TARGET = program
+PROGRAMS=scratch
 
-all: $(TARGET)
+CXXFLAGS=-std=c++20 -O0 -g -fno-inline -Wall -Werror -pedantic-errors
+LDFLAGS=-std=c++20
 
-$(TARGET): $(OBJ)
-	$(CXX) $(OBJ) -o $(TARGET)
+## for gcov
+CXXFLAGS:=$(CXXFLAGS) -fprofile-arcs -ftest-coverage
+LDFLAGS:=$(LDFLAGS) -fprofile-arcs
 
-build/%.o: src/%.cpp
-	@mkdir -p build
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+all: $(PROGRAMS)
+
+$(PROGRAMS): %: %.o
+	g++ $(LDFLAGS) $< -o $@
+
+%.o: %.cpp Makefile
+	g++ $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf build $(TARGET)
+	rm -rf test.log *~ *.o *.dSYM $(PROGRAMS) *.gcda *.gcno *.gcov callgrind.out.*
