@@ -5,8 +5,8 @@
 
 PixelGrid::PixelGrid(int w, int h) {
     width = w;
-    height = height;
-    pixles = std::vector<Pixels>(w * h);
+    height = h;
+    pixels = std::vector<Pixel>(w * h);
 
 }
 

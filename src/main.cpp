@@ -1,6 +1,8 @@
 #include "PixelGrid.hpp"
 #include <iostream>
 
+// Run using ./program
+
 int main() {
     PixelGrid grid(300, 400);
 
